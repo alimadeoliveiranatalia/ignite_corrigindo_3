@@ -32,20 +32,17 @@ app.put("/repositories/:id", (request, response) => {
   
   const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
-  if (!repositoryIndex) {
+  if (repositoryIndex === -1) {
     return response.status(404).json({ error: "Repository not found" });
   }
-  const parametros = [title,url,techs];
-  for(let i=0;i<parametros.length;i++){
-    if(parametros[i]!=null){
+  const t = repositories.title;
+  const u = repositories.find(r=>r.url != url);
+  const te = repositories.find(r=>r.techs != techs);
 
-    }
-  }
-
-  repositoryIndex.title = title;
-  repositoryIndex.url = url;
-  repositoryIndex.techs = techs;
-  
+    repositoryIndex.title = title;
+    repositoryIndex.url = url;
+    repositoryIndex.techs = techs;
+ 
 
   return response.json(repositoryIndex);
 });
@@ -65,18 +62,16 @@ app.delete("/repositories/:id", (request, response) => {
 });
 
 app.post("/repositories/:id/like", (request, response) => {
-  const {repository} = request;
   const { id } = request.params;
 
   const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
-  if (!repositoryIndex) {
+  if (repositoryIndex === -1) {
     return response.status(404).json({ error: "Repository not found" });
   }
 
-  const likes = ++repositories[repositoryIndex].likes;
-
-  return response.json('likes');
+  const likes = repositoryIndex.likes +1;
+  repositoryIndex.likes = likes;
 });
 
 module.exports = app;
