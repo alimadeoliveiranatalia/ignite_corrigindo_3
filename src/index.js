@@ -22,47 +22,55 @@ app.post("/repositories", (request, response) => {
     techs,
     likes: 0
   };
-
-  return response.json(repository);
+  repositories.push(repository);
+  return response.status(201).json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
   const { id } = request.params;
-  const updatedRepository = request.body;
+  const {title, url, techs} = request.body;
+  
+  const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
-  repositoryIndex = repositories.findindex(repository => repository.id === id);
-
-  if (repositoryIndex < 0) {
+  if (!repositoryIndex) {
     return response.status(404).json({ error: "Repository not found" });
   }
+  const parametros = [title,url,techs];
+  for(let i=0;i<parametros.length;i++){
+    if(parametros[i]!=null){
 
-  const repository = { ...repositories[repositoryIndex], ...updatedRepository };
+    }
+  }
 
-  repositories[repositoryIndex] = repository;
+  repositoryIndex.title = title;
+  repositoryIndex.url = url;
+  repositoryIndex.techs = techs;
+  
 
-  return response.json(repository);
+  return response.json(repositoryIndex);
 });
 
 app.delete("/repositories/:id", (request, response) => {
   const { id } = request.params;
 
-  repositoryIndex = repositories.findIndex(repository => repository.id === id);
+  const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
-  if (repositoryIndex > 0) {
+  if (repositoryIndex === -1) {
     return response.status(404).json({ error: "Repository not found" });
   }
 
   repositories.splice(repositoryIndex, 1);
 
-  return response.status(204).send();
+  return response.status(204).json();
 });
 
 app.post("/repositories/:id/like", (request, response) => {
+  const {repository} = request;
   const { id } = request.params;
 
-  repositoryIndex = repositories.findIndex(repository => repository.id === id);
+  const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
-  if (repositoryIndex < 0) {
+  if (!repositoryIndex) {
     return response.status(404).json({ error: "Repository not found" });
   }
 
