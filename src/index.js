@@ -39,7 +39,7 @@ app.put("/repositories/:id", (request, response) => {
     repositoryIndex.title = title;
   }
   if(url != null){
-    while (url.length < repositoryIndex.url.length || url.length > repositoryIndex.url.length){
+    if (url.length < repositoryIndex.url.length || url.length > repositoryIndex.url.length){
     repositoryIndex.url = url;}
     repositoryIndex.url;
   }
@@ -47,7 +47,7 @@ app.put("/repositories/:id", (request, response) => {
     repositoryIndex.techs = techs;
   }
   if (repositoryIndex.likes != like){
-    repositoryIndex.likes = 0;}
+    repositoryIndex.likes = like;}
   return response.json(repositoryIndex);
 });
 
