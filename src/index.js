@@ -35,15 +35,15 @@ app.put("/repositories/:id", (request, response) => {
   if (repositoryIndex === -1) {
     return response.status(404).json({ error: "Repository not found" });
   }
-  const t = repositories.title;
-  const u = repositories.find(r=>r.url != url);
-  const te = repositories.find(r=>r.techs != techs);
-
+  if(title != repositoryIndex.title && title !=null ){
     repositoryIndex.title = title;
+  }
+  if(url != repositoryIndex.url && url != null){
     repositoryIndex.url = url;
+  }
+  if(techs != repositoryIndex.techs && techs != null){
     repositoryIndex.techs = techs;
- 
-
+  }
   return response.json(repositoryIndex);
 });
 
