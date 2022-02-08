@@ -35,15 +35,17 @@ app.put("/repositories/:id", (request, response) => {
   if (repositoryIndex === -1) {
     return response.status(404).json({ error: "Repository not found" });
   }
-  if(title != repositoryIndex.title && title !=null ){
+  if(request.body.title != null && request.body.title != repositoryIndex.title){
     repositoryIndex.title = title;
   }
-  if(url != repositoryIndex.url && url != null){
-    repositoryIndex.url = url;
+  if(request.body.url != null){
+    while (request.body.url.length < repositoryIndex.url.length || request.body.url.length > repositoryIndex.url.length){
+    repositoryIndex.url = url;}
   }
-  if(techs != repositoryIndex.techs && techs != null){
+  if(request.body.techs != null && request.body.techs != repositoryIndex.techs){
     repositoryIndex.techs = techs;
   }
+  repositoryIndex.likes = repositoryIndex.likes;
   return response.json(repositoryIndex);
 });
 
